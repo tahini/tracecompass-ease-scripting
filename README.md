@@ -14,11 +14,17 @@ Contributions are welcome! Make sure to add the appropriate traces if the exampl
 
 Here's a list of example scripts for Trace Compass. In the [example](examples) folder are example scripts that work with sample traces, but may need to be fine-tuned to one's needs.
 
+In the [utils](utils) directory are utility scripts that can be used as is with the right use case. They may require some parameters to run properly.
+
 ### Examples:
 
- - examples/javascript/[basicAnalysis.js](examples/javascript/basicAnalysis.js) and examples/python/[basicAnalysis.py](examples/python/basicAnalysis.py): Works with kernel traces, it does the same thing as the TID analysis, ie save which thread runs on which CPU. It's an example of building a state system and displaying it in a time graph.
- - examples/javascript/[scriptedDataProvider.js](examples/javascript/scriptedDataProvider.js): Works with the [mpi_ring traceset](traces/mpi_ring.tgz), shows how to script one's own data provider to display in a time graph view, with arrows.
- - examples/javascript/[statisticsDensityXY.js](examples/javascript/statisticsDensityXY.js): Works with any trace, draws a XY chart of the density of a particular event using the Statistics module.
+ - **examples/javascript/[basicAnalysis.js](examples/javascript/basicAnalysis.js)** and **examples/python/[basicAnalysis.py](examples/python/basicAnalysis.py)**: Works with kernel traces, it does the same thing as the TID analysis, ie save which thread runs on which CPU. It's an example of building a state system and displaying it in a time graph.
+ - **examples/javascript/[scriptedDataProvider.js](examples/javascript/scriptedDataProvider.js)**: Works with the [mpi_ring traceset](traces/mpi_ring.tgz), shows how to script one's own data provider to display in a time graph view, with arrows.
+ - **examples/javascript/[statisticsDensityXY.js](examples/javascript/statisticsDensityXY.js)**: Works with any trace, draws a XY chart of the density of a particular event using the Statistics module.
+
+### Utilities:
+
+ - **utils/javascript/[exportUstSymbols.js](utils/javascript/exportUstSymbols.js)**: Export symbols from LTTng-UST traces of applications instrumented with -finstrument-function. It generates content in the GNU nm's format that can then be imported on any machine to configure symbols correctly for that trace. Symbols needs to be properly configured before running this script.
 
 ## References
 

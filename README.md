@@ -19,7 +19,7 @@ In the [utils](utils) directory are utility scripts that can be used as is with 
 ### Examples:
 
  - **examples/javascript/[basicAnalysis.js](examples/javascript/basicAnalysis.js)** and **examples/python/[basicAnalysis.py](examples/python/basicAnalysis.py)**: Works with kernel traces, it does the same thing as the TID analysis, ie save which thread runs on which CPU. It's an example of building a state system and displaying it in a time graph.
- - **examples/javascript/[scriptedDataProvider.js](examples/javascript/scriptedDataProvider.js)**: Works with the [mpi_ring traceset](traces/mpi_ring.tgz), shows how to script one's own data provider to display in a time graph view, with arrows.
+ - **examples/javascript/[scriptedDataProvider.js](examples/javascript/scriptedDataProvider.js)** and **examples/python/[scriptedDataProvider.py](examples/python/scriptedDataProvider.py)**: Works with the [mpi_ring traceset](traces/mpi_ring.tgz), shows how to script one's own data provider to display in a time graph view, with arrows.
  - **examples/javascript/[statisticsDensityXY.js](examples/javascript/statisticsDensityXY.js)**: Works with any trace, draws a XY chart of the density of a particular event using the Statistics module.
 
 ### Utilities:

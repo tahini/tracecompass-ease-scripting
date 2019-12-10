@@ -1,3 +1,7 @@
+# The MIT License (MIT)
+#
+# Copyright (C) 2019 - David Piché
+
 # Imports
 from matplotlib import pyplot
 from matplotlib.ticker import FuncFormatter

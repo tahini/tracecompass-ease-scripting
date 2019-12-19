@@ -1,0 +1,11 @@
+#version 2.2.0
+#creator Geneviève Bastien
+#Producer TA Simulator (14.01.0.73)
+#signalAccesses false
+#timeScale ns
+#version 2.1.0
+#timeScale ns
+0,Dummy,0,C,thisTrace,0,startTrace,0
+200,Dummy,0,C,thisTrace,0,endTrace
+
+

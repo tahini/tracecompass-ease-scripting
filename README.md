@@ -21,6 +21,7 @@ In the [utils](utils) directory are utility scripts that can be used as is with 
  - **examples/javascript/[basicAnalysis.js](examples/javascript/basicAnalysis.js)** and **examples/python/[basicAnalysis.py](examples/python/basicAnalysis.py)**: Works with kernel traces, it does the same thing as the TID analysis, ie save which thread runs on which CPU. It's an example of building a state system and displaying it in a time graph.
  - **examples/javascript/[scriptedDataProvider.js](examples/javascript/scriptedDataProvider.js)** and **examples/python/[scriptedDataProvider.py](examples/python/scriptedDataProvider.py)**: Works with the [mpi_ring traceset](traces/mpi_ring.tgz), shows how to script one's own data provider to display in a time graph view, with arrows.
  - **examples/javascript/[statisticsDensityXY.js](examples/javascript/statisticsDensityXY.js)**: Works with any trace, draws a XY chart of the density of a particular event using the Statistics module.
+ - **examples/javascript/[seasonsGreetings.js](examples/javascript/seasonsGreetings.js)**: Because scripting isn't just serious, this script saves letters to a state system and displays them in a time graph. Useful to write message like a Season's Greeting with a Christmas tree! Ideally works with a small trace in nanoseconds like [the boundary btf trace](traces/boundaryTrace.btf).
 
 ### Utilities:
 

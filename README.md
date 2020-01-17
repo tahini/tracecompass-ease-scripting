@@ -41,5 +41,6 @@ Here are links to the official documentation of the `Trace Compass Scripting Fea
 
 Here's a list of references, blog posts, etc, produced by the Community.
 
+ - [Trace Compass Scripting Benchmarks](http://versatic.net/tracecompass/scriptEngineBenchmarks.html) (blog post)
  - [Trace Compass Scripting: Enpowering Users With Their Trace Data Analysis](http://versatic.net/tracecompass/introducingEase.html) (blog post)
  - [Trace Compass Scripting Demo](http://versatic.net/tracingSummit2019.html) (blog post)

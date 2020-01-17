@@ -1,23 +1,53 @@
 # The MIT License (MIT)
 #
-# Copyright (C) 2019 - David PichÃ©
+# Copyright (C) 2019 - David Piché
 
-# Imports
-from matplotlib import pyplot
-from matplotlib.ticker import FuncFormatter
-from scipy.cluster.vq import kmeans
-import numpy
-from numpy import nditer
+###############################################################################
+# This file is an example of a python script using machine learning on trace
+# data. This is the first of a two-part python script. This script is meant to
+# be run with the jython scripting engine, as it does an event request on the
+# currently active trace. It works on a kernel trace.
+#
+# The second part of the script is expected to be in the same directory as this
+# script
+#
+# @param arg1
+#            Number of clusters for the kmean algorithm
+###############################################################################
 
 # Modules
 loadModule("/TraceCompass/Trace")
-loadModule("/TraceCompass/Analysis")
-loadModule("/TraceCompass/View")
-loadModule("/TraceCompass/DataProvider")
+loadModule("/System/Resources")
+loadModule("/System/Scripting")
 
-# Script
+import json
+
+# Verify the arguments
+if (len(argv) < 1):
+	print("Required arguments : <number of clusters for kmeans>")
+	exit()
+
+# Is the first argument an integer
+try:
+  	int(argv[0])
+except:
+	print("First argument must be an integer")
+	exit() 
+  
+# Does the companion script exists
+currentFile = getScriptEngine().getExecutedFile()
+parentPath = currentFile.getParent().getFullPath()
+filePath = "workspace://" + str(parentPath) + "/kMeanClusteringSciPy_py4j.py"
+file = getFile(filePath);
+if file is None:
+	print("Callee script not found: " + filePath)
+	exit()
+
+# Get the active trace
 trace = getActiveTrace()
-analysis = getAnalysis("analysistest.py")
+if trace is None:
+	print("There is no active trace. Please open the trace to run this script on")
+	exit()
 
 # Counts the number of distinct syscall names
 def distinctSyscallCount(syscallName, syscallNameDistinct, syscallNameCount, syscallNameIndex):
@@ -34,7 +64,7 @@ def extractAspects():
 	mapInitialInfo = java.util.HashMap()
 	syscallNameIndex = 0
 	layout = trace.getKernelEventLayout()
-	iter = analysis.getEventIterator()
+	iter = getEventIterator(trace)
 	event = None
 	durations = []
 	syscallNameList = []
@@ -62,75 +92,16 @@ def extractAspects():
 				syscallNameList.append(syscallInfo[1])
 	return syscallNameDistinct, syscallNameCount, syscallNameList, durations
 
-# Gets the correct cluster the point belongs to
-def nearestPointIndex(value, codebook):
-	codebookNumpy = numpy.asarray(codebook)
-	lengths = numpy.abs(codebook - value)
-	return lengths.argmin()
-
-# Prints clustering statistics (percentage)
-def printStatistics():
-	iter = 0
-	for center in nditer(codebook):
-		print("For center of " + str(center))
-		percentage = float(len(durationData[iter]))/float(len(durations))*100
-		print("Percentage of syscalls with this cluster: "+ str(percentage))
-		iter += 1
-	for k, v in syscallNameDistinct.items():
-		print("Syscall name: " + k)
-		print("Count: " + str(v))
-
-# Run clustering algorithm on aspects
-def runClustering(durations):
-	codebook, distortion = kmeans(durations, int(argv[0]))
-	return codebook, distortion
-
-# Colors
-colors = numpy.array(["b","r","g","y","c","m","k"])
-
-# Prepare XY scatter points with color for matplotlib
-def prepareScatterPlot(syscallNameCount, codebook, syscallNameList):
-
-	durationData = [[] for x in range(int(argv[0])) ]
-	syscallNameIndex = [[] for x in range(len(durationData))]
-
-	for x in range(len(durations)):
-		index = nearestPointIndex(durations[x-1], codebook)
-		durationData[index].append(durations[x-1])
-		syscallNameIndex[index].append(syscallNameCount.get(str(syscallNameList[x-1])))
-
-	syscallName = ["" for x in range(len(syscallNameCount))]
-
-	for k, v in syscallNameCount.items():
-		syscallName[v] = k
-
-	return syscallNameIndex, syscallName, durationData
-
-# Format durations with commas (for thousands, millions)
-def formatDuration(x, pos):
-	return format(x, ",.0f")
-
-# Shows the xy plot with a matplotlib scatter plot
-def showPlot(syscallNameDistinct, syscallNameCount, durations, syscallNameList):
-	fig, ax = pyplot.subplots()
-	formatter = FuncFormatter(formatDuration)
-	ax.xaxis.set_major_formatter(formatter)
-	# Titles
-	pyplot.title("System Call Clustering by Duration", fontsize=20,fontweight='bold')
-	pyplot.xlabel("System Call Duration (ns)", fontsize=14)
-	pyplot.ylabel("System Call Name", fontsize=14)
-
-	for i in range(int(argv[0])):
-			pyplot.yticks(numpy.arange(0,len(syscallNameDistinct)), syscallName)
-			pyplot.scatter(numpy.asarray(durationData[i]),syscallNameIndex[i],c=colors[i])
-	# No duration is < than 0
-	pyplot.xlim(xmin=0)
-	pyplot.ylim(ymin=-2)
-
+# Calculate the data for this analysis
 syscallNameDistinct, syscallNameCount, syscallNameList, durations = extractAspects()
-codebook, distortion = runClustering(durations)
-syscallNameIndex, syscallName, durationData = prepareScatterPlot(syscallNameCount, codebook, syscallNameList)
-showPlot(syscallNameDistinct, syscallNameCount, durations, syscallNameList)
-printStatistics()
-pyplot.show()
 
+# Set the variables as shared objects, dumping to json
+setSharedObject("syscallNameDistinct", json.dumps(syscallNameDistinct), False, True)
+setSharedObject("syscallNameCount", json.dumps(syscallNameCount), False, True)
+setSharedObject("syscallNameList", json.dumps(syscallNameList), False, True)
+setSharedObject("durations", json.dumps(durations), False, True)
+	
+# Run the companion script with the argument for kmean
+result = fork(file, argv[0], "org.eclipse.ease.lang.python.py4j.engine")
+result.waitForResult()
+print(result)

@@ -22,6 +22,7 @@ In the [utils](utils) directory are utility scripts that can be used as is with 
  - **examples/javascript/[scriptedDataProvider.js](examples/javascript/scriptedDataProvider.js)** and **examples/python/[scriptedDataProvider.py](examples/python/scriptedDataProvider.py)**: Works with the [mpi_ring traceset](traces/mpi_ring.tgz), shows how to script one's own data provider to display in a time graph view, with arrows.
  - **examples/javascript/[statisticsDensityXY.js](examples/javascript/statisticsDensityXY.js)**: Works with any trace, draws a XY chart of the density of a particular event using the Statistics module.
  - **examples/javascript/[seasonsGreetings.js](examples/javascript/seasonsGreetings.js)**: Because scripting isn't just serious, this script saves letters to a state system and displays them in a time graph. Useful to write message like a Season's Greeting with a Christmas tree! Ideally works with a small trace in nanoseconds like [the boundary btf trace](traces/boundaryTrace.btf).
+ - **examples/python/[kMeanClusteringSciPy.py](examples/python/kMeanClusteringSciPy.py)** and **examples/python/[kMeanClusteringSciPy.py](examples/python/kMeanClusteringSklearn.py)**: Works with kernel trace, uses the matplotlib and numpy libraries. **[kMeanClusteringSciPy.py](examples/python/kMeanClusteringSciPy.py)** additionaly uses the scipy library, while **[kMeanClusteringSciPy.py](examples/python/kMeanClusteringSklearn.py)** uses the scikit-learn library.
 
 ### Utilities:
 
